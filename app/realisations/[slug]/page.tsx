@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/sections/PageHero";
 import { Section } from "@/components/layout/Section";
+import { Button } from "@/components/ui/Button";
 import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
 import { projects, getProjectBySlug } from "@/content/realisations";
 
@@ -58,6 +60,18 @@ export default async function ProjectDetailPage({
           { label: project.name },
         ]}
       >
+        {project.liveUrl && (
+          <Button
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            size="lg"
+            className="mt-8"
+          >
+            Voir le site en ligne ↗
+          </Button>
+        )}
+
         {availableMeta.length > 0 && (
           <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-white/10 pt-8 sm:grid-cols-5">
             {availableMeta.map(({ key, label }) => (
@@ -73,6 +87,21 @@ export default async function ProjectDetailPage({
           </dl>
         )}
       </PageHero>
+
+      {project.coverImage && (
+        <Section tone="light" className="pt-16 pb-0 sm:pt-20">
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-light-gray sm:aspect-[16/9]">
+            <Image
+              src={project.coverImage}
+              alt={`Aperçu du projet ${project.name}`}
+              fill
+              sizes="(min-width: 1024px) 1024px, 100vw"
+              className="object-cover object-top"
+              priority
+            />
+          </div>
+        </Section>
+      )}
 
       {project.problem && (
         <Section tone="light">
@@ -170,9 +199,16 @@ export default async function ProjectDetailPage({
             {project.gallery.map((image) => (
               <div
                 key={image}
-                className="aspect-video rounded-xl bg-light-gray"
-                aria-hidden="true"
-              />
+                className="relative aspect-video overflow-hidden rounded-xl border border-light-gray"
+              >
+                <Image
+                  src={image}
+                  alt={`Capture d'écran supplémentaire du projet ${project.name}`}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover object-top"
+                />
+              </div>
             ))}
           </div>
         </Section>

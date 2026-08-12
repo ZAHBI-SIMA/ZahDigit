@@ -14,6 +14,8 @@ export type Project = {
   projectType?: string;
   technologies: string[];
   description: string;
+  /** URL de l'application en ligne — si présente, "Voir le projet" y renvoie directement. */
+  liveUrl?: string;
   problem?: string;
   objectives?: string[];
   solution?: string;
@@ -25,9 +27,9 @@ export type Project = {
   gallery?: string[];
 };
 
-// Contenu à compléter avec les projets réels de l'agence (visuels, technologies,
-// résultats vérifiés). L'entrée ci-dessous reprend l'exemple fourni dans le
-// cahier des charges (§12) à titre de structure de référence.
+// Contenu à compléter avec les projets réels de l'agence (technologies,
+// problématique, solution, résultats vérifiés). Les champs non confirmés
+// sont volontairement laissés vides plutôt que devinés.
 export const projects: Project[] = [
   {
     slug: "myclasslink",
@@ -36,6 +38,20 @@ export const projects: Project[] = [
     technologies: [],
     description:
       "Plateforme digitale destinée à faciliter la gestion et la communication dans l'environnement scolaire.",
+    coverImage: "/MyClassLink.png",
+    liveUrl: "https://myclasslink.cloud/",
+    results: [],
+  },
+  {
+    slug: "sim-assurances",
+    name: "SIM Assurances",
+    category: "Assurance / Site web",
+    technologies: [],
+    description:
+      "Site web de la Société Ivoirienne de Micro-Assurances (SIM Assurances), présentant ses solutions d'assurance — santé, voyage et autres — et permettant l'obtention d'un devis en ligne.",
+    coverImage: "/Mysimas.png",
+    liveUrl: "https://mysimassurances.com/",
+    gallery: ["/sira.png"],
     results: [],
   },
 ];

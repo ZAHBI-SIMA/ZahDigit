@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
+import { Logo } from "@/components/layout/Logo";
 import { mainNav, footerLegalNav } from "@/lib/navigation";
 
 export function Footer() {
@@ -9,9 +10,7 @@ export function Footer() {
     <footer className="bg-navy text-white/80">
       <Container className="grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Link href="/" className="text-lg font-bold text-white">
-            ZahDigit
-          </Link>
+          <Logo />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             Nous concevons des expériences et des produits digitaux qui
             contribuent à la croissance des entreprises.

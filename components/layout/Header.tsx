@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { mainNav } from "@/lib/navigation";
 import { Container } from "@/components/layout/Container";
+import { Logo } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
 
 export function Header() {
@@ -44,9 +45,7 @@ export function Header() {
       )}
     >
       <Container className="flex h-16 items-center justify-between sm:h-20">
-        <Link href="/" className="text-lg font-bold text-white">
-          ZahDigit
-        </Link>
+        <Logo />
 
         <nav className="hidden items-center gap-8 lg:flex">
           {mainNav.map((item) => {

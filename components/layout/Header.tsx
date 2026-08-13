@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -10,9 +11,20 @@ import { Container } from "@/components/layout/Container";
 import { Logo } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
 
+const emptySubscribe = () => () => {};
+
+function useIsMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const mounted = useIsMounted();
   const pathname = usePathname();
   const [lastPathname, setLastPathname] = useState(pathname);
 
@@ -102,37 +114,41 @@ export function Header() {
         </button>
       </Container>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-16 z-40 bg-navy/98 backdrop-blur-md lg:hidden"
-          >
-            <motion.nav
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.05 }}
-              className="flex flex-col gap-1 px-6 py-8"
-            >
-              {mainNav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="border-b border-white/10 py-4 text-lg font-medium text-white"
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 top-16 z-40 overflow-y-auto bg-navy/98 backdrop-blur-md sm:top-20 lg:hidden"
+              >
+                <motion.nav
+                  initial={{ opacity: 0, y: -16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.05 }}
+                  className="flex flex-col gap-1 px-6 py-8"
                 >
-                  {item.label}
-                </Link>
-              ))}
-              <Button href="/contact" size="lg" className="mt-6 w-full">
-                Démarrer un projet →
-              </Button>
-            </motion.nav>
-          </motion.div>
+                  {mainNav.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="border-b border-white/10 py-4 text-lg font-medium text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                  <Button href="/contact" size="lg" className="mt-6 w-full">
+                    Démarrer un projet →
+                  </Button>
+                </motion.nav>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </header>
   );
 }

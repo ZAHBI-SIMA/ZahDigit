@@ -73,7 +73,7 @@ export default async function ProjectDetailPage({
         )}
 
         {availableMeta.length > 0 && (
-          <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-white/10 pt-8 sm:grid-cols-5">
+          <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-white/10 pt-8 sm:grid-cols-3 lg:grid-cols-5">
             {availableMeta.map(({ key, label }) => (
               <div key={key}>
                 <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">

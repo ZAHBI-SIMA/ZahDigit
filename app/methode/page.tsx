@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Méthode",
   description:
     "Discovery, UX/UI Design, développement, tests, déploiement, évolution : découvrez notre méthode de travail, du cadrage à la mise en production.",
+  alternates: { canonical: "/methode" },
 };
 
 const principles = ["Design", "UX", "Technologie", "SEO", "Conversion"];

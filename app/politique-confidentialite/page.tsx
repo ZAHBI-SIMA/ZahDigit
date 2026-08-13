@@ -5,6 +5,7 @@ import { LegalArticle, LegalSection } from "@/components/layout/LegalArticle";
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description: "Politique de confidentialité et de protection des données du site ZahDigit.",
+  alternates: { canonical: "/politique-confidentialite" },
 };
 
 export default function PolitiqueConfidentialitePage() {

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Réalisations",
   description:
     "Découvrez les projets digitaux conçus par notre agence : sites web, applications web et mobiles pensés pour avoir un impact réel.",
+  alternates: { canonical: "/realisations" },
 };
 
 export default function RealisationsPage() {

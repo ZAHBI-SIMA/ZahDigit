@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "À propos",
   description:
     "Découvrez notre mission, notre vision, nos valeurs et notre approche : un partenaire technologique qui combine stratégie, design et technologie.",
+  alternates: { canonical: "/a-propos" },
 };
 
 const values = [

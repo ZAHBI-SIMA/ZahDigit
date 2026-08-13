@@ -5,6 +5,7 @@ import { LegalArticle, LegalSection } from "@/components/layout/LegalArticle";
 export const metadata: Metadata = {
   title: "Mentions légales",
   description: "Mentions légales du site ZahDigit.",
+  alternates: { canonical: "/mentions-legales" },
 };
 
 export default function MentionsLegalesPage() {

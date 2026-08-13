@@ -10,25 +10,44 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
+const defaultTitle = "Agence digitale | Création de sites web & applications";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Agence digitale | Création de sites web & applications",
+    default: defaultTitle,
     template: "%s | ZahDigit",
   },
   description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: "Agence digitale | Création de sites web & applications",
+    title: defaultTitle,
     description: siteConfig.description,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Agence digitale | Création de sites web & applications",
+    title: defaultTitle,
     description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -37,6 +56,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: siteConfig.name,
   url: siteConfig.url,
+  logo: `${siteConfig.url}/logo_zahdigit_trimmed.png`,
   description: siteConfig.description,
 };
 

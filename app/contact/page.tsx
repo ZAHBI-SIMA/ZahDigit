@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Parlez-nous de votre projet digital et obtenez une première estimation. Sites web, applications web et mobiles, solutions sur mesure.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Services",
   description:
     "Sites web, applications web, applications mobiles, UI/UX design et solutions sur mesure : découvrez l'ensemble de nos expertises digitales.",
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {

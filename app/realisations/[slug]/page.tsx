@@ -23,6 +23,14 @@ export async function generateMetadata({
   return {
     title: project.name,
     description: project.description,
+    alternates: { canonical: `/realisations/${project.slug}` },
+    openGraph: {
+      title: project.name,
+      description: project.description,
+      images: project.coverImage
+        ? [{ url: project.coverImage, width: 1200, height: 900, alt: project.name }]
+        : undefined,
+    },
   };
 }
 

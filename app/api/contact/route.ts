@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  const pool = getMysqlPool();
+  const pool = await getMysqlPool();
   if (pool) {
     try {
       await pool.execute(

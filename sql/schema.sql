@@ -1,6 +1,13 @@
 -- Table des leads issus du formulaire de contact (app/api/contact/route.ts)
--- À exécuter dans phpMyAdmin / l'éditeur SQL Hostinger sur la base
--- u523667971_zahdigit_db avant de configurer les variables DB_* en production.
+--
+-- Cette table est désormais créée automatiquement au démarrage du
+-- serveur (voir instrumentation.ts + lib/db/mysql.ts) dès que les
+-- variables DB_HOST / DB_PORT / DB_NAME / DB_USER / DB_PASSWORD sont
+-- configurées — aucune action manuelle n'est requise.
+--
+-- Ce fichier reste comme référence / filet de sécurité si tu préfères
+-- l'exécuter toi-même dans phpMyAdmin / l'éditeur SQL Hostinger sur la
+-- base u523667971_zahdigit_db.
 
 CREATE TABLE IF NOT EXISTS leads (
   id INT AUTO_INCREMENT PRIMARY KEY,

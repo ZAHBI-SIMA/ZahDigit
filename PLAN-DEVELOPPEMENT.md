@@ -2,7 +2,7 @@
 
 **Basé sur :** Cahier des charges v1.0 (11 août 2026)
 **Approche :** développement itératif, MVP d'abord, orienté conversion
-**Stack retenue :** Next.js 14+ (App Router) · TypeScript · Tailwind CSS · Framer Motion · Supabase (PostgreSQL) · Resend · Vercel
+**Stack retenue :** Next.js 14+ (App Router) · TypeScript · Tailwind CSS · Framer Motion · MySQL · Resend · Hostinger
 
 ---
 
@@ -26,11 +26,11 @@
 | Animations | Framer Motion (+ `prefers-reduced-motion`) | §27 |
 | Formulaires | React Hook Form + Zod | validation client + serveur avec le même schéma |
 | Backend léger | Next.js Route Handlers (API interne) | pas besoin d'un backend séparé pour le MVP |
-| Base de données | Supabase (PostgreSQL) | stockage des leads, table réalisations en Phase 2 |
+| Base de données | MySQL (Hostinger) | stockage des leads via `mysql2` |
 | Email transactionnel | Resend | confirmation prospect + notification agence (§21) |
 | Anti-spam | hCaptcha ou Cloudflare Turnstile + honeypot + rate limiting | §32 |
 | Analytics | GA4 + Google Search Console | §33 |
-| Hébergement | Vercel | edge network, image CDN, previews par PR |
+| Hébergement | Hostinger | build webpack (voir contraintes ci-dessous) |
 | Tests | Playwright (E2E) + Vitest (unitaire) | formulaires, navigation, composants critiques |
 
 ---
@@ -108,7 +108,7 @@ zahdigit-site/
 
 ### Sprint 0 — Setup & fondations (2-3 jours)
 - Init Next.js + TypeScript + Tailwind + ESLint/Prettier + Husky (pre-commit lint).
-- Config Vercel (preview deployments), variables d'environnement.
+- Configuration Hostinger (build, variables d'environnement).
 - Design tokens + composants UI de base (§4 ci-dessus).
 - Layout global : Header sticky avec `backdrop-blur` (§7.2), Footer, structure mobile drawer (§7.3).
 - Mise en place SEO technique de base : `sitemap.ts`, `robots.ts`, layout metadata, Schema.org Organization.
@@ -141,7 +141,7 @@ Ordre de construction = ordre de priorité business :
 - Route API `app/api/contact/route.ts` :
   - validation serveur (même schéma Zod que le client),
   - anti-spam (honeypot + Turnstile/hCaptcha + rate limiting par IP),
-  - écriture en base (Supabase),
+  - écriture en base (MySQL),
   - email de confirmation au prospect (Resend),
   - notification interne à l'agence (Resend).
 - Qualification des leads (§20) : champs structurés en base pour permettre un scoring futur (type de projet, budget, urgence).
@@ -162,58 +162,41 @@ Ordre de construction = ordre de priorité business :
 
 ### Sprint 7 — Déploiement (1-2 jours)
 - Domaine + DNS + SSL.
-- Déploiement production Vercel, variables d'environnement de prod.
+- Déploiement production Hostinger, variables d'environnement de prod.
 - Vérification post-déploiement : Core Web Vitals réels (LCP < 2,5s, INP < 200ms, CLS < 0,1), sitemap soumis à Search Console, monitoring d'erreurs basique.
 
 **Durée totale MVP estimée : ~5 à 6 semaines** (cohérent avec les fourchettes indicatives du §48, en séquentiel avec une seule équipe front).
 
 ---
 
-## 6. Modèle de données (Supabase)
+## 6. Modèle de données (MySQL — Hostinger)
+
+Schéma exécuté tel quel dans [sql/schema.sql](sql/schema.sql) sur la base `u523667971_zahdigit_db`.
 
 ```sql
 -- Leads issus du formulaire de contact
-create table leads (
-  id uuid primary key default gen_random_uuid(),
-  created_at timestamptz default now(),
-  full_name text not null,
-  company text,
-  email text not null,
-  phone text,
-  project_type text not null,       -- site web / app web / app mobile / saas / refonte / ui-ux / sur-mesure / autre
-  budget_range text,
-  timeline text,
-  description text not null,
-  consent_rgpd boolean not null,
-  utm_source text,
-  utm_medium text,
-  utm_campaign text,
-  utm_content text,
-  utm_term text,
-  status text default 'new'          -- new / contacted / qualified / quoted / won / lost
-);
-
--- Réalisations (bascule vers la DB en Phase 2 si un CMS/admin est ajouté ; MVP = fichier content/realisations.ts)
-create table projects (
-  id uuid primary key default gen_random_uuid(),
-  slug text unique not null,
-  name text not null,
-  category text not null,
-  sector text,
-  client text,
-  year int,
-  duration text,
-  project_type text,
-  technologies text[],
-  problem text,
-  solution text,
-  features text[],
-  results jsonb,                     -- KPI réels uniquement, structure libre
-  cover_image text,
-  gallery text[],
-  published boolean default false
+CREATE TABLE leads (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  full_name VARCHAR(255) NOT NULL,
+  company VARCHAR(255),
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(50),
+  project_type VARCHAR(100) NOT NULL,   -- site web / app web / app mobile / saas / refonte / ui-ux / sur-mesure / autre
+  budget_range VARCHAR(100) NOT NULL,
+  timeline VARCHAR(100),
+  description TEXT NOT NULL,
+  consent_rgpd BOOLEAN NOT NULL,
+  utm_source VARCHAR(255),
+  utm_medium VARCHAR(255),
+  utm_campaign VARCHAR(255),
+  utm_content VARCHAR(255),
+  utm_term VARCHAR(255),
+  status VARCHAR(50) NOT NULL DEFAULT 'new'  -- new / contacted / qualified / quoted / won / lost
 );
 ```
+
+Réalisations : gérées en dur dans `content/realisations.ts` pour le MVP (pas de table dédiée). Une bascule vers une table `projects` en base pourra être envisagée en Phase 2 si un back-office est ajouté.
 
 ---
 

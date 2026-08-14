@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { LegalArticle, LegalSection } from "@/components/layout/LegalArticle";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
@@ -27,14 +28,14 @@ export default function MentionsLegalesPage() {
             <br />
             Directeur de la publication : [nom et fonction].
             <br />
-            Contact : [adresse email professionnelle] — [numéro de téléphone].
+            Contact : {siteConfig.email} — [numéro de téléphone, à venir].
           </p>
         </LegalSection>
 
         <LegalSection title="2. Hébergement">
           <p>
-            Le site est hébergé par Vercel Inc., 340 S Lemon Ave #4133, Walnut,
-            CA 91789, États-Unis.
+            Le site est hébergé par Hostinger, [adresse légale de
+            l&apos;hébergeur à compléter].
           </p>
         </LegalSection>
 

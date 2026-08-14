@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Logo } from "@/components/layout/Logo";
 import { mainNav, footerLegalNav } from "@/lib/navigation";
+import { siteConfig } from "@/lib/site-config";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -15,6 +16,12 @@ export function Footer() {
             Nous concevons des expériences et des produits digitaux qui
             contribuent à la croissance des entreprises.
           </p>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="mt-4 inline-block text-sm font-medium text-white hover:text-orange"
+          >
+            {siteConfig.email}
+          </a>
         </div>
 
         <div>

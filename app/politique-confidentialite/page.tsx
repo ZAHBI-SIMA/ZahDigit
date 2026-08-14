@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { LegalArticle, LegalSection } from "@/components/layout/LegalArticle";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
@@ -83,8 +84,8 @@ export default function PolitiqueConfidentialitePage() {
             Conformément à la réglementation applicable en matière de
             protection des données personnelles, vous disposez d&apos;un droit
             d&apos;accès, de rectification, d&apos;effacement et d&apos;opposition concernant
-            vos données. Pour exercer ces droits, contactez-nous à l&apos;adresse :
-            [email de contact dédié à la protection des données].
+            vos données. Pour exercer ces droits, contactez-nous à l&apos;adresse :{" "}
+            {siteConfig.email}.
           </p>
         </LegalSection>
 
@@ -109,8 +110,7 @@ export default function PolitiqueConfidentialitePage() {
         <LegalSection title="10. Contact">
           <p>
             Pour toute question relative à cette politique de confidentialité,
-            contactez-nous à : [email de contact dédié à la protection des
-            données].
+            contactez-nous à : {siteConfig.email}.
           </p>
         </LegalSection>
       </LegalArticle>

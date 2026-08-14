@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { Section } from "@/components/layout/Section";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -18,7 +19,14 @@ export default function ContactPage() {
         title="Parlons de votre projet."
         description="Décrivez-nous votre besoin : nous revenons vers vous rapidement avec une première lecture de votre projet."
         breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Contact" }]}
-      />
+      >
+        <a
+          href={`mailto:${siteConfig.email}`}
+          className="mt-6 inline-block text-sm font-medium text-white hover:text-orange"
+        >
+          {siteConfig.email}
+        </a>
+      </PageHero>
 
       <Section tone="light">
         <div className="mx-auto max-w-3xl">

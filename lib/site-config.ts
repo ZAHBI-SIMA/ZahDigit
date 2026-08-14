@@ -4,6 +4,7 @@ export const siteConfig = {
   description:
     "Nous concevons des sites web, applications web et mobiles modernes, performants et adaptés aux objectifs de votre entreprise.",
   locale: "fr_FR",
+  email: "contact@zahdigit.com",
   ogImage: "/og-image.jpg",
   keywords: [
     "agence digitale",

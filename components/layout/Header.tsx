@@ -4,7 +4,6 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { mainNav } from "@/lib/navigation";
 import { Container } from "@/components/layout/Container";
@@ -115,38 +114,24 @@ export function Header() {
       </Container>
 
       {mounted &&
+        menuOpen &&
         createPortal(
-          <AnimatePresence>
-            {menuOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="fixed inset-0 top-16 z-40 overflow-y-auto bg-navy/98 backdrop-blur-md sm:top-20 lg:hidden"
-              >
-                <motion.nav
-                  initial={{ opacity: 0, y: -16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.05 }}
-                  className="flex flex-col gap-1 px-6 py-8"
+          <div className="fixed inset-0 top-16 z-40 overflow-y-auto bg-navy sm:top-20 lg:hidden">
+            <nav className="flex flex-col gap-1 px-6 py-8">
+              {mainNav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="border-b border-white/10 py-4 text-lg font-medium text-white"
                 >
-                  {mainNav.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="border-b border-white/10 py-4 text-lg font-medium text-white"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                  <Button href="/contact" size="lg" className="mt-6 w-full">
-                    Démarrer un projet →
-                  </Button>
-                </motion.nav>
-              </motion.div>
-            )}
-          </AnimatePresence>,
+                  {item.label}
+                </Link>
+              ))}
+              <Button href="/contact" size="lg" className="mt-6 w-full">
+                Démarrer un projet →
+              </Button>
+            </nav>
+          </div>,
           document.body
         )}
     </header>

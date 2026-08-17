@@ -12,8 +12,8 @@
     "@hookform/resolvers": "^5.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^13.1.0",
-    "mysql2": "^3.23.3",
     "next": "16.3.0",
+    "pg": "^8.23.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-hook-form": "^7.85.0",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.21.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validations/contact.schema";
 import { isRateLimited } from "@/lib/rate-limit";
-import { getMysqlPool } from "@/lib/db/mysql";
+import { getPostgresPool } from "@/lib/db/postgres";
 import { sendContactEmails } from "@/lib/email/resend";
 
 const MIN_SUBMIT_DELAY_MS = 3000;
@@ -47,13 +47,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  const pool = await getMysqlPool();
+  const pool = await getPostgresPool();
   if (pool) {
     try {
-      await pool.execute(
+      await pool.query(
         `INSERT INTO leads
           (full_name, company, email, phone, project_type, budget_range, timeline, description, consent_rgpd, utm_source, utm_medium, utm_campaign, utm_content, utm_term)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
         [
           lead.fullName,
           lead.company || null,

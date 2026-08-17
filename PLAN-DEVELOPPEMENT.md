@@ -2,7 +2,7 @@
 
 **Basé sur :** Cahier des charges v1.0 (11 août 2026)
 **Approche :** développement itératif, MVP d'abord, orienté conversion
-**Stack retenue :** Next.js 14+ (App Router) · TypeScript · Tailwind CSS · Framer Motion · MySQL · Resend · Hostinger
+**Stack retenue :** Next.js 14+ (App Router) · TypeScript · Tailwind CSS · Framer Motion · Supabase (PostgreSQL) · Resend · Hostinger
 
 ---
 
@@ -26,7 +26,7 @@
 | Animations | Framer Motion (+ `prefers-reduced-motion`) | §27 |
 | Formulaires | React Hook Form + Zod | validation client + serveur avec le même schéma |
 | Backend léger | Next.js Route Handlers (API interne) | pas besoin d'un backend séparé pour le MVP |
-| Base de données | MySQL (Hostinger) | stockage des leads via `mysql2` |
+| Base de données | Supabase (PostgreSQL) | stockage des leads via `pg` (connexion directe) |
 | Email transactionnel | Resend | confirmation prospect + notification agence (§21) |
 | Anti-spam | hCaptcha ou Cloudflare Turnstile + honeypot + rate limiting | §32 |
 | Analytics | GA4 + Google Search Console | §33 |
@@ -141,7 +141,7 @@ Ordre de construction = ordre de priorité business :
 - Route API `app/api/contact/route.ts` :
   - validation serveur (même schéma Zod que le client),
   - anti-spam (honeypot + Turnstile/hCaptcha + rate limiting par IP),
-  - écriture en base (MySQL),
+  - écriture en base (Supabase/PostgreSQL),
   - email de confirmation au prospect (Resend),
   - notification interne à l'agence (Resend).
 - Qualification des leads (§20) : champs structurés en base pour permettre un scoring futur (type de projet, budget, urgence).
@@ -169,30 +169,32 @@ Ordre de construction = ordre de priorité business :
 
 ---
 
-## 6. Modèle de données (MySQL — Hostinger)
+## 6. Modèle de données (Supabase — PostgreSQL)
 
-Schéma exécuté tel quel dans [sql/schema.sql](sql/schema.sql) sur la base `u523667971_zahdigit_db`.
+Schéma exécuté automatiquement au démarrage du serveur (voir `instrumentation.ts` +
+`lib/db/postgres.ts`) ; [sql/schema.sql](sql/schema.sql) sert de référence /
+filet de sécurité pour une exécution manuelle dans l'éditeur SQL Supabase.
 
 ```sql
 -- Leads issus du formulaire de contact
 CREATE TABLE leads (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  full_name VARCHAR(255) NOT NULL,
-  company VARCHAR(255),
-  email VARCHAR(255) NOT NULL,
-  phone VARCHAR(50),
-  project_type VARCHAR(100) NOT NULL,   -- site web / app web / app mobile / saas / refonte / ui-ux / sur-mesure / autre
-  budget_range VARCHAR(100) NOT NULL,
-  timeline VARCHAR(100),
+  id BIGSERIAL PRIMARY KEY,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  full_name TEXT NOT NULL,
+  company TEXT,
+  email TEXT NOT NULL,
+  phone TEXT,
+  project_type TEXT NOT NULL,   -- site web / app web / app mobile / saas / refonte / ui-ux / sur-mesure / autre
+  budget_range TEXT NOT NULL,
+  timeline TEXT,
   description TEXT NOT NULL,
   consent_rgpd BOOLEAN NOT NULL,
-  utm_source VARCHAR(255),
-  utm_medium VARCHAR(255),
-  utm_campaign VARCHAR(255),
-  utm_content VARCHAR(255),
-  utm_term VARCHAR(255),
-  status VARCHAR(50) NOT NULL DEFAULT 'new'  -- new / contacted / qualified / quoted / won / lost
+  utm_source TEXT,
+  utm_medium TEXT,
+  utm_campaign TEXT,
+  utm_content TEXT,
+  utm_term TEXT,
+  status TEXT NOT NULL DEFAULT 'new'  -- new / contacted / qualified / quoted / won / lost
 );
 ```
 

@@ -3,6 +3,7 @@ import { Container } from "@/components/layout/Container";
 import { Logo } from "@/components/layout/Logo";
 import { mainNav, footerLegalNav } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site-config";
+import { MailIcon, MapPinIcon, PhoneIcon } from "@/components/ui/icons";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -16,11 +17,19 @@ export function Footer() {
             Nous concevons des expériences et des produits digitaux qui
             contribuent à la croissance des entreprises.
           </p>
-          <div className="mt-4 flex flex-col gap-1.5 text-sm font-medium text-white">
-            <a href={`mailto:${siteConfig.email}`} className="hover:text-orange">
+          <div className="mt-4 flex flex-col gap-2.5 text-sm font-medium text-white">
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="group inline-flex items-center gap-2.5 hover:text-orange"
+            >
+              <MailIcon className="h-4 w-4 shrink-0 text-orange" />
               {siteConfig.email}
             </a>
-            <a href={`tel:${siteConfig.phoneHref}`} className="hover:text-orange">
+            <a
+              href={`tel:${siteConfig.phoneHref}`}
+              className="group inline-flex items-center gap-2.5 hover:text-orange"
+            >
+              <PhoneIcon className="h-4 w-4 shrink-0 text-orange" />
               {siteConfig.phone}
             </a>
           </div>
@@ -93,7 +102,10 @@ export function Footer() {
       <div className="border-t border-white/10 py-6">
         <Container className="flex flex-col items-center justify-between gap-2 text-xs text-white/50 sm:flex-row">
           <p>© {year} ZahDigit. Tous droits réservés.</p>
-          <p>Abidjan, Côte d&apos;Ivoire</p>
+          <p className="inline-flex items-center gap-1.5">
+            <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-orange" />
+            Abidjan, Côte d&apos;Ivoire
+          </p>
         </Container>
       </div>
     </footer>

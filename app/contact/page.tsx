@@ -20,12 +20,14 @@ export default function ContactPage() {
         description="Décrivez-nous votre besoin : nous revenons vers vous rapidement avec une première lecture de votre projet."
         breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Contact" }]}
       >
-        <a
-          href={`mailto:${siteConfig.email}`}
-          className="mt-6 inline-block text-sm font-medium text-white hover:text-orange"
-        >
-          {siteConfig.email}
-        </a>
+        <div className="mt-6 flex flex-col gap-2 text-sm font-medium text-white sm:flex-row sm:gap-6">
+          <a href={`mailto:${siteConfig.email}`} className="hover:text-orange">
+            {siteConfig.email}
+          </a>
+          <a href={`tel:${siteConfig.phoneHref}`} className="hover:text-orange">
+            {siteConfig.phone}
+          </a>
+        </div>
       </PageHero>
 
       <Section tone="light">

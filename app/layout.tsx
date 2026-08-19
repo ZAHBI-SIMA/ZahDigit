@@ -58,6 +58,20 @@ const organizationJsonLd = {
   url: siteConfig.url,
   logo: `${siteConfig.url}/logo_zahdigit_trimmed.png`,
   description: siteConfig.description,
+  email: siteConfig.email,
+  telephone: siteConfig.phoneHref,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Abidjan",
+    addressCountry: "CI",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "sales",
+    email: siteConfig.email,
+    telephone: siteConfig.phoneHref,
+    availableLanguage: ["fr"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

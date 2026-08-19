@@ -16,12 +16,14 @@ export function Footer() {
             Nous concevons des expériences et des produits digitaux qui
             contribuent à la croissance des entreprises.
           </p>
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="mt-4 inline-block text-sm font-medium text-white hover:text-orange"
-          >
-            {siteConfig.email}
-          </a>
+          <div className="mt-4 flex flex-col gap-1.5 text-sm font-medium text-white">
+            <a href={`mailto:${siteConfig.email}`} className="hover:text-orange">
+              {siteConfig.email}
+            </a>
+            <a href={`tel:${siteConfig.phoneHref}`} className="hover:text-orange">
+              {siteConfig.phone}
+            </a>
+          </div>
         </div>
 
         <div>

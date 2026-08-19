@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validations/contact.schema";
 import { isRateLimited } from "@/lib/rate-limit";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { saveLead } from "@/lib/db/leads";
 import { sendContactEmails } from "@/lib/email/resend";
 
 const MIN_SUBMIT_DELAY_MS = 3000;
@@ -47,29 +47,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  const supabase = getSupabaseServerClient();
-  if (supabase) {
-    const { error } = await supabase.from("leads").insert({
-      full_name: lead.fullName,
-      company: lead.company || null,
-      email: lead.email,
-      phone: lead.phone || null,
-      project_type: lead.projectType,
-      budget_range: lead.budget,
-      timeline: lead.timeline || null,
-      description: lead.description,
-      consent_rgpd: lead.consent,
-      utm_source: lead.utmSource || null,
-      utm_medium: lead.utmMedium || null,
-      utm_campaign: lead.utmCampaign || null,
-      utm_content: lead.utmContent || null,
-      utm_term: lead.utmTerm || null,
-    });
-
-    if (error) {
-      console.error("[contact] Échec de l'enregistrement du lead en base :", error.message);
-    }
-  }
+  await saveLead(lead);
 
   try {
     await sendContactEmails(lead);

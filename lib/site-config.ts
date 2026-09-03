@@ -9,6 +9,8 @@ export const siteConfig = {
   phone: "07 05 92 09 96",
   /** Format international pour les liens tel: (Côte d'Ivoire, +225) */
   phoneHref: "+2250705920996",
+  /** Souscription assurance SIM Assurances (redirection depuis l'accueil) */
+  simAssurancesUrl: "https://mysimassurances.com/",
   ogImage: "/og-image.jpg",
   keywords: [
     "agence digitale",
